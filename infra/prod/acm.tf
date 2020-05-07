@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 # module "prod_env" {
 #   source      = "../../../terraform-aws-s3-cf-site"
 #   bucket_name = "hatgame-prod-origin.hatgame.lol"
