@@ -1,1 +1,5 @@
 bucket_name = "hatgame-origin.lol"
+cert_domain = "hatgame.lol"
+domain_name = "hatgame.lol"
+ci_user_arn = "arn:aws:iam::050877257577:user/admin_douglas_naphas"
+zone_name   = "hatgame.lol"
