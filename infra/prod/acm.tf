@@ -1,12 +1,3 @@
-# module "prod_env" {
-#   source      = "../../../terraform-aws-s3-cf-site"
-#   bucket_name = "hatgame-prod-origin.hatgame.lol"
-#   domain_name = "hatgame.lol"
-#   cert_domain = "*.hatgame.lol"                                            # need another module for this
-#   ci_user_arn = "arn:aws:iam::050877257577:user/replace-with-resource-ref" # and this
-#   zone_name   = "hatgame.lol"
-# }
-
 locals {
   # Use existing (via data source) or create new zone (will fail validation, if zone is not reachable)
   use_existing_route53_zone = true
@@ -30,7 +21,7 @@ resource "aws_route53_zone" "this" {
 }
 
 module "acm" {
-  source = "terraform-aws-modules/acm/aws" # this could be made absolute as recommended in the tf docs
+  source  = "terraform-aws-modules/acm/aws" # this could be made absolute as recommended in the tf docs
   version = "2.5.0"
 
   domain_name = local.domain_name
