@@ -1,10 +1,5 @@
 terraform {
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "hatgame"
-
-    workspaces {
-      name = "hatgame-prod-tf13"
-    }
+  backend "local" {
+    path = "tf12-01.tfstate"
   }
 }
