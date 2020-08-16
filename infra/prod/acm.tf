@@ -2,7 +2,7 @@ locals {
   # Use existing (via data source) or create new zone (will fail validation, if zone is not reachable)
   use_existing_route53_zone = true
 
-  domain = "hatgame.lol"
+  domain = var.domain_name
 
   # Removing trailing dot from domain - just to be sure :)
   domain_name = trimsuffix(local.domain, ".")
