@@ -22,7 +22,7 @@ resource "aws_route53_zone" "this" {
 
 module "acm" {
   source  = "terraform-aws-modules/acm/aws" # this could be made absolute as recommended in the tf docs
-  version = "2.5.0"
+  version = "2.10.0"
 
   domain_name = local.domain_name
   zone_id     = coalescelist(data.aws_route53_zone.this.*.zone_id, aws_route53_zone.this.*.zone_id)[0]
