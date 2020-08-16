@@ -4,7 +4,7 @@ terraform {
     organization = "hatgame"
 
     workspaces {
-      name = "hatgame-prod-tf13"
+      name = "hatgame-prod-02"
     }
   }
 }
