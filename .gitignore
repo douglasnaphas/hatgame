@@ -107,3 +107,5 @@ dist
 *.tfstate
 
 .vscode/
+
+.DS_Store
