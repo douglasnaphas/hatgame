@@ -8,7 +8,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy-role-stack": "TS_NODE_SKIP_IGNORE=true bash deploy-role-stack.sh",
+    "deploy-app-stack": "TS_NODE_SKIP_IGNORE=true bash deploy-app-stack.sh"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
