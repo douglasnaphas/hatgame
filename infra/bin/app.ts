@@ -10,8 +10,6 @@ import {
 const crypto = require("crypto");
 import { RoleStack } from "../lib/roleStack";
 import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
-// import { greeting } from "setty-ts";
-const greeting = require("setty-ts").greeting;
 const response2GitHubProviderArn =
   require("aws-github-oidc").response2GitHubProviderArn;
 
