@@ -1,0 +1,38 @@
+name: CI
+concurrency: ci-${{ github.ref }}
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          persist-credentials: false
+      - name: Install infra
+        working-directory: infra
+        run: |
+          npm install
+      - name: Build infra
+        working-directory: infra
+        run: |
+          npm run build
+      - name: Test infra
+        working-directory: infra
+        run: |
+          npm test
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.PROD_ACCOUNT_ROLE }}
+          aws-region: us-east-1
+      - name: Deploy the app stack to the prod account
+        working-directory: infra
+        run: |
+          npm run deploy-app-stack
