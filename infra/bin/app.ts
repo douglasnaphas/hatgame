@@ -148,4 +148,9 @@ const STACKNAME_HASH_LENGTH = 6;
   }
 
   const subject = `repo:${process.env.GITHUB_REPOSITORY}:ref:${process.env.GITHUB_REF}`;
+
+  new RoleStack(app, stackname("role", { hash: STACKNAME_HASH_LENGTH }), {
+    providerArn,
+    subject,
+  });
 })();
