@@ -2,8 +2,12 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class InfraStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export interface AppStackProps extends cdk.StackProps {
+
+}
+
+export class AppStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: AppStackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
