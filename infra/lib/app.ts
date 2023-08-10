@@ -8,6 +8,6 @@ export interface AppStackProps extends cdk.StackProps {}
 export class AppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: AppStackProps) {
     super(scope, id, props);
-    const frontendBucket = new appBucket(this, "FrontendBucket");
+    const frontendBucket = appBucket(this, "FrontendBucket");
   }
 }
