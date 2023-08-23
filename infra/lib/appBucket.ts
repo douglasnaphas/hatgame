@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { aws_s3 as s3, CfnOutput, RemovalPolicy } from "aws-cdk-lib";
 
-const appBucket: (
+export const appBucket: (
   scope: Construct,
   id: string,
   props?: s3.BucketProps
@@ -14,4 +14,3 @@ const appBucket: (
   new CfnOutput(scope, `${id}Name`, { value: bucket.bucketName });
   return bucket;
 };
-module.exports = appBucket;

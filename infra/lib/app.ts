@@ -4,7 +4,9 @@ import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
-const appBucket = require("./appBucket");
+import * as s3 from "aws-cdk-lib/aws-s3";
+// const appBucket = require("./appBucket");
+import { appBucket } from "./appBucket";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export interface AppStackProps extends StackProps {
@@ -32,8 +34,11 @@ export class AppStack extends Stack {
       });
       domainNames = [domainName, wwwDomainName];
     }
+    const distroLoggingBucket = appBucket(this, "DistroLoggingBucket", {
+      accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+    });
     const distroProps: any = {
-      logBucket: appBucket(this, "DistroLoggingBucket"),
+      logBucket: distroLoggingBucket,
       logFilePrefix: "distribution-access-logs/",
       logIncludesCookies: true,
       defaultBehavior: {
