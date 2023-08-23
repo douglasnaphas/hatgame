@@ -7,6 +7,7 @@ import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as s3 from "aws-cdk-lib/aws-s3";
 // const appBucket = require("./appBucket");
 import { appBucket } from "./appBucket";
+import { appDistro } from "./appDistro";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export interface AppStackProps extends StackProps {
@@ -34,23 +35,6 @@ export class AppStack extends Stack {
       });
       domainNames = [domainName, wwwDomainName];
     }
-    const distroLoggingBucket = appBucket(this, "DistroLoggingBucket", {
-      accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
-    });
-    const distroProps: any = {
-      logBucket: distroLoggingBucket,
-      logFilePrefix: "distribution-access-logs/",
-      logIncludesCookies: true,
-      defaultBehavior: {
-        origin: new origins.S3Origin(frontendBucket),
-        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
-      },
-      defaultRootObject: "index.html",
-      domainNames,
-      certificate,
-    };
-
-    const distro = new cloudfront.Distribution(this, "Distro", distroProps);
+    const distro = appDistro(this, frontendBucket, domainNames, certificate);
   }
 }
