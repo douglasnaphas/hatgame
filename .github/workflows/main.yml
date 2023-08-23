@@ -5,7 +5,7 @@ on:
     branches: [master, main]
   workflow_dispatch:
 jobs:
-  test-and-deploy:
+  webapp-prod:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -36,3 +36,6 @@ jobs:
         working-directory: infra
         run: |
           npm run deploy-app-stack
+      - name: Deploy frontend to the prod account
+        run: |
+          bash deploy-frontend.sh
