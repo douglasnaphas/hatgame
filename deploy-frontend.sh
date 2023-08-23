@@ -11,3 +11,4 @@ then
   exit 1
 fi
 aws s3 sync --content-type "text/html" --exclude "*" --include "*.html" --delete frontend/ s3://${BUCKET}/
+aws s3 sync --content-type "image/png" --exclude "*" --include "*.png" --delete out/ s3://${BUCKET}/
