@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as route53 from "aws-cdk-lib/aws-route53";
+import { aws_route53_targets as targets } from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as s3 from "aws-cdk-lib/aws-s3";
 // const appBucket = require("./appBucket");
@@ -36,5 +37,31 @@ export class AppStack extends Stack {
       domainNames = [domainName, wwwDomainName];
     }
     const distro = appDistro(this, frontendBucket, domainNames, certificate);
+    if (domainName && wwwDomainName && hostedZone) {
+      // point the domain name with an alias record to the distro
+      const aliasRecord = new route53.ARecord(this, "Alias", {
+        recordName: domainName,
+        zone: hostedZone,
+        target: route53.RecordTarget.fromAlias(
+          new targets.CloudFrontTarget(distro)
+        ),
+      });
+      const aliasWWWRecord = new route53.ARecord(this, "AliasWWW", {
+        recordName: wwwDomainName,
+        zone: hostedZone,
+        target: route53.RecordTarget.fromAlias(
+          new targets.CloudFrontTarget(distro)
+        ),
+      });
+      const DNS_WEIGHT = 100;
+      const cfnAliasRecordSet = aliasRecord.node
+        .defaultChild as route53.CfnRecordSet;
+      cfnAliasRecordSet.weight = DNS_WEIGHT;
+      cfnAliasRecordSet.setIdentifier = "cf-alias";
+      const cfnAliasWWWRecordSet = aliasWWWRecord.node
+        .defaultChild as route53.CfnRecordSet;
+      cfnAliasWWWRecordSet.weight = DNS_WEIGHT;
+      cfnAliasWWWRecordSet.setIdentifier = "www-cf-alias";
+    }
   }
 }
