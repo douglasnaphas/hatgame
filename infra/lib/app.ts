@@ -35,7 +35,7 @@ export class AppStack extends Stack {
       domainNames = [domainName, wwwDomainName];
     }
     const distroLoggingBucket = appBucket(this, "DistroLoggingBucket", {
-      accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+      accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
     });
     const distroProps: any = {
       logBucket: distroLoggingBucket,
