@@ -5,7 +5,7 @@ import { AppStack, AppStackProps } from "../lib/app";
 test("Can instantiate stack", () => {
   const app = new cdk.App();
   //     // WHEN
-  const stack = new AppStack(app, "MyTestStack");
+  const stack = new AppStack(app, "MyTestStack", {});
   //     // THEN
   const template = Template.fromStack(stack);
 
