@@ -69,7 +69,10 @@ const STACKNAME_HASH_LENGTH = 6;
       this.appParamName = appParamName;
     }
   }
-  const configParams: Array<ConfigParam> = [new ConfigParam("customProp")];
+  const configParams: Array<ConfigParam> = [
+    new ConfigParam("domainName"),
+    new ConfigParam("zoneId"),
+  ];
   const ssmParams = {
     Names: configParams.map((c) => c.ssmParamName()),
     WithDecryption: true,
