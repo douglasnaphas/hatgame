@@ -11,7 +11,7 @@ test("Can instantiate stack", () => {
   // console.log(app.synth());
   console.log(template.toJSON());
   
-  // template.hasResource("AWS::S3::Bucket", {});
+  template.hasResource("AWS::S3::Bucket", {});
 
   //   template.hasResourceProperties('AWS::SQS::Queue', {
   //     VisibilityTimeout: 300
