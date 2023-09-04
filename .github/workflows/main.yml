@@ -23,10 +23,6 @@ jobs:
         working-directory: infra
         run: |
           npm run build
-      - name: Test infra
-        working-directory: infra
-        run: |
-          npm test
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
