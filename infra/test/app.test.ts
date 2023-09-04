@@ -8,6 +8,10 @@ test("Can instantiate stack", () => {
   const stack = new AppStack(app, "MyTestStack", {});
   //     // THEN
   const template = Template.fromStack(stack);
+  // console.log(app.synth());
+  console.log(template.toJSON());
+  
+  // template.hasResource("AWS::S3::Bucket", {});
 
   //   template.hasResourceProperties('AWS::SQS::Queue', {
   //     VisibilityTimeout: 300
