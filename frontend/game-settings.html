@@ -12,23 +12,23 @@
   <body>
     <h1>Game settings</h1>
     <form action="/room-code" method="post">
-      <div id="room-name-input">
+      <p id="room-name-input">
         <label for="room-name" id="room-name-label">1. Choose a Room Name</label
         ><br />
         <input type="text" name="room-name" id="room-name" required />
-      </div>
-      <div id="taskmaster-name-input">
+      </p>
+      <p id="taskmaster-name-input">
         <label for="taskmaster-name" id="taskmaster-name-label"
-          >2. Your name
+          >2. Your name<br />We recommend you use your <em>actual</em> name.
         </label>
-        <div>We recommend you use your <em>actual</em> name.</div>
+        <br />
         <input
           type="text"
           name="taskmaster-name"
           id="taskmaster-name"
           required
         />
-      </div>
+      </p>
     </form>
   </body>
 </html>
