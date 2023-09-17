@@ -29,6 +29,36 @@
           required
         />
       </p>
+      <fieldset id="game-location-input">
+        <legend>3. How is your group playing?</legend>
+        <label for="in-person">In-person</label
+        ><input
+          type="radio"
+          id="in-person"
+          name="game-location"
+          value="in-person"
+        />
+        <label for="virtually">Virtually</label
+        ><input
+          type="radio"
+          id="virtually"
+          name="game-location"
+          value="virtually"
+        />
+      </fieldset>
+      <p id="time-limit-input">
+        <label for="time-limit" id="time-limit-label"
+          >4. Activity time limit (minutes)</label
+        >
+        <br />
+        <input
+          id="time-limit"
+          name="time-limit"
+          type="number"
+          value="10"
+          min="0"
+        />
+      </p>
     </form>
   </body>
 </html>
