@@ -23,6 +23,10 @@ jobs:
         working-directory: infra
         run: |
           npm run build
+      - name: Prod-install lambda-express-hbs
+        working-directory: lambda-express-hbs
+        run: |
+          npm install --production
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
