@@ -50,6 +50,9 @@ export class AppStack extends Stack {
     const webApi = new apigw.LambdaRestApi(this, "WebApi", {
       handler: webHandler,
     });
+    new CfnOutput(this, "WebApiUrl", {
+      value: webApi.url,
+    });
     const distro = appDistro(this, frontendBucket, domainNames, certificate);
     if (domainName && wwwDomainName && hostedZone) {
       // point the domain name with an alias record to the distro
