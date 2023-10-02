@@ -41,7 +41,7 @@ export class AppStack extends Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       handler: "index.handler",
       code: lambda.Code.fromAsset("../lambda-express-hbs"),
-      memorySize: 5000,
+      memorySize: 3000,
       environment: {
         NODE_ENV: "production",
       },
