@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Hat Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+  </head>
+  <body>
+    <h1>Game settings</h1>
+    <form action="./room-code" method="post">
+      <p id="room-name-input">
+        <label for="room-name" id="room-name-label">1. Choose a Room Name</label
+        ><br />
+        <input type="text" name="room-name" id="room-name" required />
+      </p>
+      <p id="taskmaster-name-input">
+        <label for="taskmaster-name" id="taskmaster-name-label"
+          >2. Your name<br />We recommend you use your <em>actual</em> name.
+        </label>
+        <br />
+        <input
+          type="text"
+          name="taskmaster-name"
+          id="taskmaster-name"
+          required
+        />
+      </p>
+      <fieldset id="game-location-input">
+        <legend>3. How is your group playing?</legend>
+        <label for="in-person">In-person</label
+        ><input
+          type="radio"
+          id="in-person"
+          name="game-location"
+          value="in-person"
+          required
+        />
+        <label for="virtually">Virtually</label
+        ><input
+          type="radio"
+          id="virtually"
+          name="game-location"
+          value="virtually"
+          required
+        />
+      </fieldset>
+      <p id="time-limit-input">
+        <label for="time-limit" id="time-limit-label"
+          >4. Activity time limit (minutes)</label
+        >
+        <br />
+        <input
+          id="time-limit"
+          name="time-limit"
+          type="number"
+          value="10"
+          min="0"
+          required
+        />
+      </p>
+      <p id="generate-room-code-section">
+        To get everyone started:
+        <br />
+        <input
+          type="submit"
+          id="generate-room-code-button"
+          value="Generate room code"
+        />
+      </p>
+    </form>
+  </body>
+</html>
