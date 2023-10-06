@@ -1,0 +1,44 @@
+name: CI
+concurrency: ci-${{ github.ref }}
+on:
+  push:
+    branches: ["*", "!main", "!master", "!skip/*"]
+  workflow_dispatch:
+jobs:
+  webapp-prod:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          persist-credentials: false
+      - name: Install infra
+        working-directory: infra
+        run: |
+          npm install
+      - name: Build infra
+        working-directory: infra
+        run: |
+          npm run build
+      - name: Prod-install lambda-express-hbs
+        working-directory: lambda-express-hbs
+        run: |
+          npm install --production
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.DEV_ACCOUNT_ROLE }}
+          aws-region: us-east-1
+      - name: Identify account and region
+        run: |
+          aws sts get-caller-identity
+      - name: Deploy the app stack to the prod account
+        working-directory: infra
+        run: |
+          npm run deploy-app-stack
+      - name: Deploy frontend to the prod account
+        run: |
+          bash deploy-frontend.sh
