@@ -22,7 +22,8 @@ export class AppStack extends Stack {
     super(scope, id, props);
     const { domainName, zoneId } = props;
     const frontendBucket = appBucket(this, "FrontendBucket");
-    let hostedZone, wwwDomainName, certificate, domainNames;
+    let hostedZone, wwwDomainName, certificate;
+    let domainNames;
     if (domainName && zoneId) {
       hostedZone = route53.HostedZone.fromHostedZoneAttributes(
         this,
@@ -53,7 +54,7 @@ export class AppStack extends Stack {
     new CfnOutput(this, "WebApiUrl", {
       value: webApi.url,
     });
-    const distro = appDistro(this, frontendBucket, domainNames, certificate);
+    const distro = appDistro(this, webApi, domainNames, certificate, this);
     if (domainName && wwwDomainName && hostedZone) {
       // point the domain name with an alias record to the distro
       const aliasRecord = new route53.ARecord(this, "Alias", {
