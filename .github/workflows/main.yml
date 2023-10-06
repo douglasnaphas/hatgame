@@ -32,6 +32,9 @@ jobs:
         with:
           role-to-assume: ${{ secrets.PROD_ACCOUNT_ROLE }}
           aws-region: us-east-1
+      - name: Identify account and region
+        run: |
+          aws sts get-caller-identity
       - name: Deploy the app stack to the prod account
         working-directory: infra
         run: |
