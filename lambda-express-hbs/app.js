@@ -12,6 +12,12 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+const debugMidware = (req, res, next) => {
+  console.log("app: reuquest received", req);
+  return next();
+};
+app.use("/", debugMidware);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
