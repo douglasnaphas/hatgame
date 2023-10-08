@@ -29,6 +29,7 @@ export const appDistro = (
         protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
         originPath: "/prod",
       }),
+      allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       cachePolicy: new cloudfront.CachePolicy(scope, "WebCachePolicy", {
         minTtl: Duration.seconds(0),
