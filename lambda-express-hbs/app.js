@@ -16,7 +16,7 @@ const debugMidware = (req, res, next) => {
   console.log("app: reuquest received", req);
   return next();
 };
-app.use("/", debugMidware);
+// app.use("/", debugMidware);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

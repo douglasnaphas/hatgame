@@ -40,7 +40,6 @@ export const appDistro = (
         queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
       }),
     },
-    defaultRootObject: "index.html",
     domainNames,
     certificate,
   };
