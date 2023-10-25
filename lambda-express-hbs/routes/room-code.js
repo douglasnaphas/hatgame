@@ -30,7 +30,7 @@ router.post("/", async function (req, res, next) {
           S: schema.ROOM,
         },
         [schema.JS_DATE]: {
-          S: now.to.ISODate(),
+          S: now.toISOString(),
         },
         [schema.ROOM_NAME]: {
           S: req.body["room-name"],
