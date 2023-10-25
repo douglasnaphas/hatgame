@@ -42,8 +42,8 @@ jobs:
       - name: Install itest
         working-directory: itest
         run: |
-          pnpm install
+          npx pnpm install
       - name: itest
         working-directory: itest
         run: |
-          pnpm test
+          npx pnpm test
