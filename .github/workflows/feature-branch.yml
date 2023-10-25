@@ -39,6 +39,3 @@ jobs:
         working-directory: infra
         run: |
           npm run deploy-app-stack
-      - name: Deploy frontend to the prod account
-        run: |
-          bash deploy-frontend.sh

@@ -1,15 +1,10 @@
 import { Stack, StackProps, CfnOutput, Duration } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { aws_apigateway as apigw } from "aws-cdk-lib";
-import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
-import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import { aws_lambda as lambda } from "aws-cdk-lib";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import { aws_route53_targets as targets } from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
-import * as s3 from "aws-cdk-lib/aws-s3";
-// const appBucket = require("./appBucket");
-import { appBucket } from "./appBucket";
 import { appDistro } from "./appDistro";
 
 export interface AppStackProps extends StackProps {
@@ -21,7 +16,6 @@ export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: AppStackProps) {
     super(scope, id, props);
     const { domainName, zoneId } = props;
-    const frontendBucket = appBucket(this, "FrontendBucket");
     let hostedZone, wwwDomainName, certificate;
     let domainNames;
     if (domainName && zoneId) {
