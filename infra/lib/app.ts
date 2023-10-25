@@ -44,7 +44,7 @@ export class AppStack extends Stack {
       },
       timeout: Duration.seconds(20),
     });
-    ddbTable.grantReadWrite(webHandler);
+    ddbTable.grantReadWriteData(webHandler);
     const webApi = new apigw.LambdaRestApi(this, "WebApi", {
       handler: webHandler,
     });
