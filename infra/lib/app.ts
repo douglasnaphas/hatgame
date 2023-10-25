@@ -32,6 +32,7 @@ export class AppStack extends Stack {
       });
       domainNames = [domainName, wwwDomainName];
     }
+    const ddbTable = require("./table")(this);
     const webHandler = new lambda.Function(this, "WebHandler", {
       runtime: lambda.Runtime.NODEJS_18_X,
       handler: "index.handler",
@@ -39,9 +40,11 @@ export class AppStack extends Stack {
       memorySize: 3000,
       environment: {
         NODE_ENV: "production",
+        TABLE_NAME: ddbTable.tableName
       },
       timeout: Duration.seconds(20),
     });
+    ddbTable.grantReadWrite(webHandler);
     const webApi = new apigw.LambdaRestApi(this, "WebApi", {
       handler: webHandler,
     });
