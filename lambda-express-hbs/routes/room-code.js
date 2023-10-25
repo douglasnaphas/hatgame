@@ -47,6 +47,7 @@ router.post("/", async function (req, res, next) {
       },
       ConditionExpression: `attribute_not_exists(${schema.PARTITION_KEY})`,
     };
+    console.log("room-code: attempting to put item with", putItemInput);
     const putItemCommand = new PutItemCommand(putItemInput);
     try {
       const putItemResponse = await dynamoDBClient.send(putItemCommand);
@@ -54,7 +55,8 @@ router.post("/", async function (req, res, next) {
         title: "Hat Game: Your Room Code",
         roomCode: code,
       });
-    } catch {
+    } catch (error) {
+      console.log(error);
       console.log(
         "room-code: failed to create code; code, attempt:",
         code,
@@ -63,6 +65,7 @@ router.post("/", async function (req, res, next) {
       continue;
     }
   }
+
   return res.status(500).send();
 });
 
