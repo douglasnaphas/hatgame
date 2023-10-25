@@ -39,3 +39,11 @@ jobs:
         working-directory: infra
         run: |
           npm run deploy-app-stack
+      - name: Install itest
+        working-directory: itest
+        run: |
+          npx pnpm install
+      - name: itest
+        working-directory: itest
+        run: |
+          npx pnpm test
