@@ -32,5 +32,16 @@ describe("Hat Game", () => {
     await page.click("xpath/" + startARoomXPath);
     const yesContinueXPath = '//a[text()="Yes, continue"]';
     await page.waitForXPath(yesContinueXPath);
+    await page.click("xpath/" + yesContinueXPath);
+    const roomNameXPath = '//input[@id="room-name"]';
+    await page.waitForXPath(roomNameXPath);
+    await page.type("xpath/" + roomNameXPath, "test room");
+    const taskMasterNameXPath = '//input[@id="taskmaster-name"]';
+    await page.type("xpath/" + taskMasterNameXPath, "test name");
+    await page.click("xpath/" + '//input[@id="virtually"]');
+    const generateRoomCodeXPath = '//input[@id="generate-room-code-button"]';
+    await page.click("xpath/" + generateRoomCodeXPath);
+    const yourRoomCodeH1XPath = '//h1[text()="Your room code"]';
+    await page.waitForXPath(yourRoomCodeH1XPath);
   });
 });
