@@ -54,6 +54,7 @@ router.post("/", async function (req, res, next) {
       return res.render("your-room-code", {
         title: "Hat Game: Your Room Code",
         roomCode: code,
+        taskMasterName: req.body["taskmaster-name"],
       });
     } catch (error) {
       console.log(error);
