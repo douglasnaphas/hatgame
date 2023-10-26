@@ -43,5 +43,7 @@ describe("Hat Game", () => {
     await page.click("xpath/" + generateRoomCodeXPath);
     const yourRoomCodeH1XPath = '//h1[text()="Your room code"]';
     await page.waitForXPath(yourRoomCodeH1XPath);
+    const yourRoomCodeUrl = await page.url();
+    
   });
 });
