@@ -16,13 +16,13 @@ describe("Hat Game", () => {
         StackName: appStackName,
       })
     );
-    const distroDomainName = describeStacksResponse.Stacks[0].Outputs.find(
-      (output) => output.OutputKey === "DistributionDomainName"
+    const webAppDomainName = describeStacksResponse.Stacks[0].Outputs.find(
+      (output) => output.OutputKey === "WebAppDomainName"
     ).OutputValue;
-    if (!distroDomainName) {
-      fail("Unable to get distro domain name.");
+    if (!webAppDomainName) {
+      fail("Unable to get web app domain name.");
     }
-    const url = `https://${distroDomainName}`;
+    const url = `https://${webAppDomainName}`;
     await page.goto(url);
   });
 

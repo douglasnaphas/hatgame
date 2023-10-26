@@ -40,7 +40,7 @@ export class AppStack extends Stack {
       memorySize: 3000,
       environment: {
         NODE_ENV: "production",
-        TABLE_NAME: ddbTable.tableName
+        TABLE_NAME: ddbTable.tableName,
       },
       timeout: Duration.seconds(20),
     });
@@ -79,8 +79,8 @@ export class AppStack extends Stack {
       cfnAliasWWWRecordSet.setIdentifier = "www-cf-alias";
     }
 
-    // distro.addBehavior({
-
-    // })
+    new CfnOutput(this, "WebAppDomainName", {
+      value: domainName || distro.distributionDomainName,
+    });
   }
 }
