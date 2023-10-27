@@ -73,7 +73,7 @@ router.post("/", async function (req, res, next) {
 router.get("/:roomCode", async (req, res) => {
   try {
     const getItemInput = {
-      TableName: schema.TableName,
+      TableName: schema.TABLE_NAME,
       Key: {
         [schema.PARTITION_KEY]: { S: req.params.roomCode },
         [schema.SORT_KEY]: { S: schema.ROOM },
