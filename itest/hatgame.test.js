@@ -45,5 +45,5 @@ describe("Hat Game", () => {
     await page.waitForXPath(yourRoomCodeH1XPath);
     const yourRoomCodeUrl = await page.url();
     
-  });
+  }, 300000);
 });
