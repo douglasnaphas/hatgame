@@ -55,7 +55,8 @@ router.post("/", async function (req, res, next) {
     const putItemCommand = new PutItemCommand(putItemInput);
     try {
       const putItemResponse = await dynamoDBClient.send(putItemCommand);
-      return res.status(303).header({ Location: `/room-code/${code}` });
+      res.set({ Location: `/room-code/${code}` });
+      return res.status(303).send();
     } catch (error) {
       console.log(error);
       console.log(
