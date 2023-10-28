@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 const taskmasterInstructionsRouter = require("./routes/taskmaster-insructions");
 const gameSettingsRouter = require("./routes/game-settings");
 const roomCodeRouter = require("./routes/room-code");
-var usersRouter = require('./routes/users');
+const joinRouter = require("./routes/join");
 
 var app = express();
 
@@ -33,7 +33,7 @@ app.use('/', indexRouter);
 app.use("/taskmaster-instructions", taskmasterInstructionsRouter);
 app.use("/game-settings", gameSettingsRouter);
 app.use("/room-code", roomCodeRouter);
-app.use('/users', usersRouter);
+app.use("/join", joinRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

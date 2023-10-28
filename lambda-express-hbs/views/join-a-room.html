@@ -1,0 +1,28 @@
+<body>
+  <h1>Join a Room</h1>
+  <p>
+    Make sure <em><i>only ONE</i></em> person from your group has selected
+    <i>Start a Room</i>. That person is the Taskmaster and will lead the game.
+  </p>
+
+  <form action="./join" method="post">
+    <div id="enter-name-section">
+      <h2>Step 1: Enter Name</h2>
+      <p>What is your <em>actual</em> name?</p>
+      <input type="text" name="your-name" id="your-name" required />
+      <br />
+      <label for="your-name" id="your-name-label">Your Name</label>
+    </div>
+    <div id="room-code-section">
+      <h2>Join the room</h2>
+      <input type="text" name="room-code" id="room-code" required />
+      <br />
+      <label for="room-code" id="room-code-label">Room Code</label>
+    </div>
+    <div id="room-selected-section">
+      <h3>Room Selected:</h3>
+      <p><span id="room-selected">🚫 None</span></p>
+    </div>
+    <input type="submit" id="join-room-button" value="Continue" />
+  </form>
+</body>
