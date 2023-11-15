@@ -4,6 +4,14 @@ const {
 } = require("@aws-sdk/client-cloudformation");
 const stackname = require("@cdk-turnkey/stackname");
 const STACKNAME_HASH_LENGTH = 6;
+const randomLowercaseString = (len) => {
+  const ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+  let s = "";
+  while (s.length < len) {
+    s += Math.floor(Math.random() * ALPHABET.length);
+  }
+  return s;
+};
 
 describe("Hat Game", () => {
   beforeAll(async () => {
@@ -37,13 +45,35 @@ describe("Hat Game", () => {
     await page.waitForXPath(roomNameXPath);
     await page.type("xpath/" + roomNameXPath, "test room");
     const taskMasterNameXPath = '//input[@id="taskmaster-name"]';
-    await page.type("xpath/" + taskMasterNameXPath, "test name");
+    const taskMasterName = randomLowercaseString(3);
+    await page.type("xpath/" + taskMasterNameXPath, taskMasterName);
     await page.click("xpath/" + '//input[@id="virtually"]');
     const generateRoomCodeXPath = '//input[@id="generate-room-code-button"]';
     await page.click("xpath/" + generateRoomCodeXPath);
     const yourRoomCodeH1XPath = '//h1[text()="Your room code"]';
     await page.waitForXPath(yourRoomCodeH1XPath);
-    const yourRoomCodeUrl = await page.url();
-    
+    const yourRoomCodeURL = new URL(await page.url());
+
+    // the displayed room code should match the last path part
+    const roomCodeFromBody = page.$("#room-code").innerText;
+    expect(roomCodeFromBody).toEqual(yourRoomCodeURL.pathname.split("/")[2]);
+
+    // the leader's name should be the only one in the list of participants
+    const firstParticipantName = page.$x(
+      "//div[@id='players-in-the-room']//ol/li[1]"
+    ).innerText;
+    expect(firstParticipantName).toEqual(taskMasterName);
+    const playerLiXPath =
+      "//div[@id='players-in-the-room']//ol[@id='player-list']/li";
+    const playerCount = (await page.$x(playerLiXPath)).length;
+    expect(playerCount).toEqual(1);
+
+    // join
+
+    // player 1's name should be in the list of participants
   }, 300000);
+
+  test("room codes should differ", async () => {
+    const roomCode1 = "";
+  });
 });
