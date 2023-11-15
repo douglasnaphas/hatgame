@@ -44,7 +44,9 @@ describe("Hat Game", () => {
     await page.click("xpath/" + yesContinueXPath);
     const roomNameXPath = '//input[@id="room-name"]';
     await page.waitForXPath(roomNameXPath);
-    await page.type("xpath/" + roomNameXPath, "test room");
+    const ROOM_NAME_PREFIX = "rm-";
+    const roomName = ROOM_NAME_PREFIX + randomLowercaseString(3);
+    await page.type("xpath/" + roomNameXPath, roomName);
     const taskMasterNameXPath = '//input[@id="taskmaster-name"]';
     const TM_PREFIX = "tm-";
     const taskMasterName = TM_PREFIX + randomLowercaseString(3);
@@ -61,9 +63,8 @@ describe("Hat Game", () => {
       "#room-code",
       (element) => element.textContent
     );
-
-    // const roomCodeFromBody = await page.$("#room-code").innerText;
     expect(roomCodeFromBody).toEqual(yourRoomCodeURL.pathname.split("/")[2]);
+    const roomCode = roomCodeFromBody;
 
     // the leader's name should be the only one in the list of participants
     const firstParticipantNameXPath =
@@ -74,7 +75,6 @@ describe("Hat Game", () => {
       firstParticipantInList
     );
     expect(firstParticipantIListText).toEqual(taskMasterName);
-
     const playerLiXPath =
       "//div[@id='players-in-the-room']//ol[@id='player-list']/li";
     const playerCount = (await page.$x(playerLiXPath)).length;
@@ -89,8 +89,20 @@ describe("Hat Game", () => {
     await page2.click("xpath/" + joinARoomLinkXpath);
     const joinARoomHeaderXPath = '//h1[text()="Join a Room"]';
     await page2.waitForXPath(joinARoomHeaderXPath);
+    const yourNameInputXPath = '//input[@id="your-name"]';
+    await page2.type("xpath/" + yourNameInputXPath, p2Name);
+    const roomSelectedText = async (pg) => {
+      return await pg.$eval("#room-selected", (el) => el.textContent);
+    };
+    let currentRoomSelectText = await roomSelectedText(page2);
+    expect(currentRoomSelectText.includes("None")).toBe(true);
+    await page2.waitForXPath(`//*[@id="room-selected"][text()="🚫 None"]`);
+    await page2.type("xpath/" + '//input[@id="room-code"]', roomCode);
+    await page2.waitForXPath(
+      `//*[@id="room-selected"][text()="✔️ ${roomName}"]`
+    );
 
-    // player 1's name should be in the list of participants
+    // player 2's name should be in the list of participants
   }, 300000);
 
   test("room codes should differ", async () => {
