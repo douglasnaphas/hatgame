@@ -8,7 +8,7 @@ const randomLowercaseString = (len) => {
   const ALPHABET = "abcdefghijklmnopqrstuvwxyz";
   let s = "";
   while (s.length < len) {
-    s += Math.floor(Math.random() * ALPHABET.length);
+    s += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
   }
   return s;
 };
@@ -52,17 +52,27 @@ describe("Hat Game", () => {
     await page.click("xpath/" + generateRoomCodeXPath);
     const yourRoomCodeH1XPath = '//h1[text()="Your room code"]';
     await page.waitForXPath(yourRoomCodeH1XPath);
-    const yourRoomCodeURL = new URL(await page.url());
+    const yourRoomCodeURL = new URL(page.url());
 
     // the displayed room code should match the last path part
-    const roomCodeFromBody = await page.$("#room-code").innerText;
+    const roomCodeFromBody = await page.$eval(
+      "#room-code",
+      (element) => element.textContent
+    );
+
+    // const roomCodeFromBody = await page.$("#room-code").innerText;
     expect(roomCodeFromBody).toEqual(yourRoomCodeURL.pathname.split("/")[2]);
 
     // the leader's name should be the only one in the list of participants
-    const firstParticipantName = await page.$x(
-      "//div[@id='players-in-the-room']//ol/li[1]"
-    ).innerText;
-    expect(firstParticipantName).toEqual(taskMasterName);
+    const firstParticipantNameXPath =
+      "//div[@id='players-in-the-room']//ol/li[1]";
+    const [firstParticipantInList] = await page.$x(firstParticipantNameXPath);
+    const firstParticipantIListText = await page.evaluate(
+      (el) => el.textContent,
+      firstParticipantInList
+    );
+    expect(firstParticipantIListText).toEqual(taskMasterName);
+
     const playerLiXPath =
       "//div[@id='players-in-the-room']//ol[@id='player-list']/li";
     const playerCount = (await page.$x(playerLiXPath)).length;
