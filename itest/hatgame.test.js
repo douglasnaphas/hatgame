@@ -55,11 +55,11 @@ describe("Hat Game", () => {
     const yourRoomCodeURL = new URL(await page.url());
 
     // the displayed room code should match the last path part
-    const roomCodeFromBody = page.$("#room-code").innerText;
+    const roomCodeFromBody = await page.$("#room-code").innerText;
     expect(roomCodeFromBody).toEqual(yourRoomCodeURL.pathname.split("/")[2]);
 
     // the leader's name should be the only one in the list of participants
-    const firstParticipantName = page.$x(
+    const firstParticipantName = await page.$x(
       "//div[@id='players-in-the-room']//ol/li[1]"
     ).innerText;
     expect(firstParticipantName).toEqual(taskMasterName);
