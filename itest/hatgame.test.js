@@ -12,6 +12,7 @@ const randomLowercaseString = (len) => {
   }
   return s;
 };
+let appUrl;
 
 describe("Hat Game", () => {
   beforeAll(async () => {
@@ -30,8 +31,8 @@ describe("Hat Game", () => {
     if (!webAppDomainName) {
       fail("Unable to get web app domain name.");
     }
-    const url = `https://${webAppDomainName}`;
-    await page.goto(url);
+    appUrl = `https://${webAppDomainName}`;
+    await page.goto(appUrl);
   });
 
   test("click through a game", async () => {
@@ -45,7 +46,8 @@ describe("Hat Game", () => {
     await page.waitForXPath(roomNameXPath);
     await page.type("xpath/" + roomNameXPath, "test room");
     const taskMasterNameXPath = '//input[@id="taskmaster-name"]';
-    const taskMasterName = randomLowercaseString(3);
+    const TM_PREFIX = "tm-";
+    const taskMasterName = TM_PREFIX + randomLowercaseString(3);
     await page.type("xpath/" + taskMasterNameXPath, taskMasterName);
     await page.click("xpath/" + '//input[@id="virtually"]');
     const generateRoomCodeXPath = '//input[@id="generate-room-code-button"]';
@@ -79,6 +81,14 @@ describe("Hat Game", () => {
     expect(playerCount).toEqual(1);
 
     // join
+    const P2_PREFIX = "p2-";
+    const p2Name = P2_PREFIX + randomLowercaseString(4);
+    const page2 = await browser.newPage();
+    await page2.goto(appUrl);
+    const joinARoomLinkXpath = '//a[text()="Join a room"]';
+    await page2.click("xpath/" + joinARoomLinkXpath);
+    const joinARoomHeaderXPath = '//h1[text()="Join a Room"]';
+    await page2.waitForXPath("xpath/" + joinARoomHeaderXPath);
 
     // player 1's name should be in the list of participants
   }, 300000);
