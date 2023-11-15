@@ -88,7 +88,7 @@ describe("Hat Game", () => {
     const joinARoomLinkXpath = '//a[text()="Join a room"]';
     await page2.click("xpath/" + joinARoomLinkXpath);
     const joinARoomHeaderXPath = '//h1[text()="Join a Room"]';
-    await page2.waitForXPath("xpath/" + joinARoomHeaderXPath);
+    await page2.waitForXPath(joinARoomHeaderXPath);
 
     // player 1's name should be in the list of participants
   }, 300000);
