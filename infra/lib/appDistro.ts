@@ -35,6 +35,7 @@ export const appDistro = (
         minTtl: Duration.seconds(0),
         maxTtl: Duration.seconds(120),
         defaultTtl: Duration.seconds(120),
+        queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
       }),
       originRequestPolicy: new cloudfront.OriginRequestPolicy(scope, "ORP", {
         cookieBehavior: cloudfront.OriginRequestCookieBehavior.all(),
