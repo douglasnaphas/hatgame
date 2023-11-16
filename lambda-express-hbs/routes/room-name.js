@@ -1,8 +1,5 @@
 var express = require("express");
-const {
-  DynamoDBClient,
-  GetItemCommand,
-} = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const schema = require("../schema");
 var router = express.Router();
 
@@ -20,11 +17,13 @@ router.get("/", async function (req, res, next) {
         [schema.SORT_KEY]: { S: schema.ROOM },
       },
     };
+    console.log("room-name: getItemInput", getItemInput);
     const getItemCommand = new GetItemCommand(getItemInput);
     const getItemResponse = await dynamoDBClient.send(getItemCommand);
+    console.log("room-name: getItemResponse", getItemResponse);
     return res.render("room-name", {
       roomName: getItemResponse.Item[schema.ROOM_NAME].S,
-      layout: false
+      layout: false,
     });
   } catch (error) {
     console.log(error);
