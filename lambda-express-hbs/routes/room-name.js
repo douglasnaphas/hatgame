@@ -7,7 +7,11 @@ const dynamoDBClient = new DynamoDBClient({ region: "us-east-1" });
 
 router.get("/", async function (req, res, next) {
   if (!req.query["room-code"]) {
-    return res.status(400).send();
+    return res.render("room-name", {
+      emoji: "🚫",
+      roomName: "None",
+      layout: false,
+    });
   }
   try {
     const getItemInput = {
@@ -22,13 +26,18 @@ router.get("/", async function (req, res, next) {
     const getItemResponse = await dynamoDBClient.send(getItemCommand);
     console.log("room-name: getItemResponse", getItemResponse);
     return res.render("room-name", {
+      emoji: "✔️",
       roomName: getItemResponse.Item[schema.ROOM_NAME].S,
       layout: false,
     });
   } catch (error) {
     console.log(error);
     console.log("room-name: failed to get room name", req.query["room-code"]);
-    return res.status(500).send();
+    return res.render("room-name", {
+      emoji: "🚫",
+      roomName: "None",
+      layout: false,
+    });
   }
 });
 
