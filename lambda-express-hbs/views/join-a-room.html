@@ -15,17 +15,18 @@
     </div>
     <div id="join-the-room-section">
       <h2>Step 2: Join the room</h2>
-      <input type="text" name="room-code" id="room-code" required />
-      <br />
-      <label
-        for="room-code"
-        id="room-code-label"
+      <input
+        type="text"
+        name="room-code"
+        id="room-code"
         hx-get="/room-name"
         hx-params="*"
         hx-trigger="input changed delay:500ms"
         hx-target="#room-selected"
-        >Room Code</label
-      >
+        required
+      />
+      <br />
+      <label for="room-code" id="room-code-label">Room Code</label>
       <div id="room-selected-section">
         <h3>Room Selected:</h3>
         <p><span id="room-selected">🚫 None</span></p>
