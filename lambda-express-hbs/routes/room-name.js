@@ -23,7 +23,8 @@ router.get("/", async function (req, res, next) {
     const getItemCommand = new GetItemCommand(getItemInput);
     const getItemResponse = await dynamoDBClient.send(getItemCommand);
     return res.render("room-name", {
-      roomName: getItemResponse.Item[schema.ROOM_NAME],
+      roomName: getItemResponse.Item[schema.ROOM_NAME].S,
+      layout: false
     });
   } catch (error) {
     console.log(error);
