@@ -102,7 +102,7 @@ describe("Hat Game", () => {
       `//*[@id="room-selected"][text()="✔️ ${roomName}"]`
     );
     // TODO: button should be disabled until a valid room code is present
-    await page2.click(`xpath///input[@id="join-room-button]`);
+    await page2.click(`xpath///input[@id="join-room-button"]`);
 
     // player 2's name should be in the list of participants
     playerCount = (await page.$x(playerLiXPath)).length;
