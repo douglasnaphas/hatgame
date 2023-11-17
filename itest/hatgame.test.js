@@ -107,7 +107,7 @@ describe("Hat Game", () => {
     // player 2's name should be in the list of participants
     const secondPlayerLiXPath =
       "//div[@id='players-in-the-room']//ol[@id='player-list']/li[2]";
-    page.waitForXPath(secondPlayerLiXPath);
+    await page.waitForXPath(secondPlayerLiXPath);
     playerCount = (await page.$x(playerLiXPath)).length;
     expect(playerCount).toEqual(2);
   }, 300000);
