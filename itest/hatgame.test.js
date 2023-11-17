@@ -77,7 +77,7 @@ describe("Hat Game", () => {
     expect(firstParticipantIListText).toEqual(taskMasterName);
     const playerLiXPath =
       "//div[@id='players-in-the-room']//ol[@id='player-list']/li";
-    const playerCount = (await page.$x(playerLiXPath)).length;
+    let playerCount = (await page.$x(playerLiXPath)).length;
     expect(playerCount).toEqual(1);
 
     // join
@@ -101,8 +101,12 @@ describe("Hat Game", () => {
     await page2.waitForXPath(
       `//*[@id="room-selected"][text()="✔️ ${roomName}"]`
     );
+    // TODO: button should be disabled until a valid room code is present
+    await page2.click(`xpath///input[@id="join-room-button]`);
 
     // player 2's name should be in the list of participants
+    playerCount = (await page.$x(playerLiXPath)).length;
+    expect(playerCount).toEqual(2);
   }, 300000);
 
   test("room codes should differ", async () => {
