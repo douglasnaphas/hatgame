@@ -9,7 +9,7 @@
     When your entire group is there, tap <b><em>Everybody's in</em></b
     >.
   </p>
-  <div id="players-in-the-room">
+  <div id="players-in-the-room" hx-ext="ws" ws-connect="/roster">
     <h2>Players in the room</h2>
     <ol id="player-list">
       <li type="1">{{taskMasterName}}</li>
