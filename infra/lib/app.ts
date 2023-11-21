@@ -7,7 +7,6 @@ import { aws_route53_targets as targets } from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import { appDistro } from "./appDistro";
 
-
 export interface AppStackProps extends StackProps {
   domainName?: string;
   zoneId?: string;
@@ -83,7 +82,5 @@ export class AppStack extends Stack {
     new CfnOutput(this, "WebAppDomainName", {
       value: domainName || distro.distributionDomainName,
     });
-
-
   }
 }

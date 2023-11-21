@@ -26,7 +26,7 @@ jobs:
       - name: Prod-install lambda-express-hbs
         working-directory: lambda-express-hbs
         run: |
-          npx pnpm install --prod
+          npm install --production
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
