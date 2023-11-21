@@ -18,7 +18,7 @@ jobs:
       - name: Install infra
         working-directory: infra
         run: |
-          npm install
+          npx pnpm install
       - name: Build infra
         working-directory: infra
         run: |
