@@ -6,6 +6,8 @@ import * as route53 from "aws-cdk-lib/aws-route53";
 import { aws_route53_targets as targets } from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import { appDistro } from "./appDistro";
+import { WebSocketApi } from "@aws-cdk/aws-apigatewayv2-alpha";
+import { WebSocketLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 
 export interface AppStackProps extends StackProps {
   domainName?: string;
@@ -82,5 +84,19 @@ export class AppStack extends Stack {
     new CfnOutput(this, "WebAppDomainName", {
       value: domainName || distro.distributionDomainName,
     });
+
+    // WebSockets
+    const rosterConnectHandler = new lambda.Function(this, "RosterConnectHandler", {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: "index.handler",
+      code: lambda.Code.fromAsset("./lib/rosterConnectHandler"),
+      memorySize: 3000,
+      environment: {
+        NODE_ENV: "production",
+        TABLE_NAME: ddbTable.tableName
+      },
+      timeout: Duration.seconds(20)
+    });
+    
   }
 }
