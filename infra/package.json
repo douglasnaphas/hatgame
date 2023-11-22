@@ -22,10 +22,12 @@
     "typescript": "~5.1.6"
   },
   "dependencies": {
+    "@aws-cdk/aws-apigatewayv2-alpha": "2.110.1-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.110.1-alpha.0",
     "@aws-sdk/client-iam": "^3.388.0",
     "@aws-sdk/client-ssm": "^3.388.0",
     "@cdk-turnkey/stackname": "^2.1.0",
-    "aws-cdk-lib": "2.89.0",
+    "aws-cdk-lib": "2.110.1",
     "aws-github-oidc": "github:VerticalRelevance/aws-github-oidc",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
