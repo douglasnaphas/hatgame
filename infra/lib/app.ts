@@ -89,7 +89,7 @@ export class AppStack extends Stack {
     const rosterConnectHandler = new lambda.Function(this, "RosterConnectHandler", {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: "index.handler",
-      code: lambda.Code.fromAsset("./lib/rosterConnectHandler"),
+      code: lambda.Code.fromAsset("./lib/ws/rosterConnectHandler"),
       memorySize: 3000,
       environment: {
         NODE_ENV: "production",
@@ -97,6 +97,6 @@ export class AppStack extends Stack {
       },
       timeout: Duration.seconds(20)
     });
-    
+
   }
 }
