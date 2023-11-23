@@ -5,8 +5,10 @@ import { aws_lambda as lambda } from "aws-cdk-lib";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import { aws_route53_targets as targets } from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import { appDistro } from "./appDistro";
-import { WebSocketApi } from "@aws-cdk/aws-apigatewayv2-alpha";
+import { WebSocketApi, WebSocketStage } from "@aws-cdk/aws-apigatewayv2-alpha";
 import { WebSocketLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 
 export interface AppStackProps extends StackProps {
@@ -86,17 +88,63 @@ export class AppStack extends Stack {
     });
 
     // WebSockets
-    const rosterConnectHandler = new lambda.Function(this, "RosterConnectHandler", {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      handler: "index.handler",
-      code: lambda.Code.fromAsset("./lib/ws/rosterConnectHandler"),
-      memorySize: 3000,
-      environment: {
-        NODE_ENV: "production",
-        TABLE_NAME: ddbTable.tableName
+    const wsOrp = new cloudfront.OriginRequestPolicy(
+      this,
+      "WSOriginRequestPolicy",
+      {
+        headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList(
+          "Sec-WebSocket-Extensions",
+          "Sec-WebSocket-Key",
+          "Sec-WebSocket-Version"
+        ),
+        cookieBehavior: cloudfront.OriginRequestCookieBehavior.all(),
+        queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
+      }
+    );
+    // ws-roster
+    const rosterConnectHandler = new lambda.Function(
+      this,
+      "RosterConnectHandler",
+      {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: "index.handler",
+        code: lambda.Code.fromAsset("./lib/ws/rosterConnectHandler"),
+        memorySize: 3000,
+        environment: {
+          NODE_ENV: "production",
+          TABLE_NAME: ddbTable.tableName,
+        },
+        timeout: Duration.seconds(20),
+      }
+    );
+    const wsRosterApi = new WebSocketApi(this, "WSRosterAPI", {
+      connectRouteOptions: {
+        integration: new WebSocketLambdaIntegration(
+          "RosterConnectIntegration",
+          rosterConnectHandler
+        ),
       },
-      timeout: Duration.seconds(20)
     });
-
+    const wsRosterStageName = "ws-roster";
+    const wsRosterStage = new WebSocketStage(this, "WSRosterStage", {
+      webSocketApi: wsRosterApi,
+      stageName: wsRosterStageName,
+      autoDeploy: true,
+    });
+    distro.addBehavior(
+      `/${wsRosterStageName}/*`,
+      new origins.HttpOrigin(
+        `${wsRosterApi.apiId}.execute-api.${this.region}.${this.urlSuffix}`,
+        {
+          protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
+        }
+      ),
+      {
+        allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+        cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        originRequestPolicy: wsOrp,
+      }
+    );
   }
 }
