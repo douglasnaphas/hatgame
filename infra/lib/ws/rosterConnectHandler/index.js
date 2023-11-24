@@ -3,5 +3,8 @@ exports.handler = async function (event, context) {
   return {
     statusCode: 200,
     body: "Connected",
+    headers: {
+      ["Content-Type"]: "text/html; charset=utf-8",
+    },
   };
 };
