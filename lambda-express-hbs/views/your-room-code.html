@@ -11,8 +11,9 @@
   </p>
   <div id="players-in-the-room">
     <h2>Players in the room</h2>
-    <ol id="player-list" hx-ext="ws" ws-connect="/ws-roster/">
+    <ol id="player-list" hx-ext="ws" ws-connect="/ws-roster/?roomcode={{{roomCode}}}">
       <li type="1">{{taskMasterName}}</li>
     </ol>
   </div>
+  <div id="ws-messages"></div>
 </body>
