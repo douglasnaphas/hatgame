@@ -6,6 +6,7 @@ const schema = {
   SORT_KEY: "SK",
   // item types
   ROOM: "room",
+  ROSTER_CONNECTION: "roster_connection",
   // properties
   JS_DATE: "timestamp",
   ROOM_NAME: "room_name",
