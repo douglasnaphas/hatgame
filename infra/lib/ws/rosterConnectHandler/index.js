@@ -14,7 +14,7 @@ exports.handler = async function (event, context) {
         timestamp: now.toISOString(),
       },
     });
-    const response = await docClient.send(command);
+    const response = await docClient.send(putCommand);
     console.log("response", response);
     return {
       statusCode: 200,
