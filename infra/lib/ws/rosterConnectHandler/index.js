@@ -3,7 +3,6 @@ const { DynamoDBDocumentClient, PutCommand } = require("@aws-sdk/lib-dynamodb");
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 exports.handler = async function (event, context) {
-  a;
   try {
     console.log("EVENT: \n" + JSON.stringify(event, null, 2));
     const now = new Date();
