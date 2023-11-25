@@ -118,11 +118,33 @@ export class AppStack extends Stack {
       }
     );
     ddbTable.grantReadWriteData(rosterConnectHandler);
+    const rosterDisconnectHandler = new lambda.Function(
+      this,
+      "RosterDisconnectHandler",
+      {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: "index.handler",
+        code: lambda.Code.fromAsset("./lib/ws/rosterConnectHandler"),
+        memorySize: 3000,
+        environment: {
+          NODE_ENV: "production",
+          TABLE_NAME: ddbTable.tableName,
+        },
+        timeout: Duration.seconds(20),
+      }
+    );
+    ddbTable.grantReadWriteData(rosterDisconnectHandler);
     const wsRosterApi = new WebSocketApi(this, "WSRosterAPI", {
       connectRouteOptions: {
         integration: new WebSocketLambdaIntegration(
           "RosterConnectIntegration",
           rosterConnectHandler
+        ),
+      },
+      disconnectRouteOptions: {
+        integration: new WebSocketLambdaIntegration(
+          "RosterDisconnectIntegration",
+          rosterDisconnectHandler
         ),
       },
     });

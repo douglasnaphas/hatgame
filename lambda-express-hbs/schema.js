@@ -7,6 +7,7 @@ const schema = {
   // item types
   ROOM: "room",
   ROSTER_CONNECTION: "roster_connection",
+  ROSTER_DISCONNECT: "roster_disconnect",
   // properties
   JS_DATE: "timestamp",
   ROOM_NAME: "room_name",

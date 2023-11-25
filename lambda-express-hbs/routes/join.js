@@ -10,5 +10,8 @@ router.get("/", async (req, res) => {
     return res.status(500).send(); // TODO: set up error pages
   }
 });
+router.post("/", async(req, res) => {
+  
+})
 
 module.exports = router;
