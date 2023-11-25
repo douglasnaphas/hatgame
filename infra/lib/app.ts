@@ -117,6 +117,7 @@ export class AppStack extends Stack {
         timeout: Duration.seconds(20),
       }
     );
+    ddbTable.grantReadWriteData(rosterConnectHandler);
     const wsRosterApi = new WebSocketApi(this, "WSRosterAPI", {
       connectRouteOptions: {
         integration: new WebSocketLambdaIntegration(
