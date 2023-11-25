@@ -9,7 +9,7 @@ var router = express.Router();
 const randomCapGenerator = require("../lib/randomCapGenerator");
 
 const dynamoDBClient = new DynamoDBClient({ region: "us-east-1" });
-router.post("/", async function (req, res, next) {
+router.post("/", async function (req, res) {
   const roomCodeSequence = randomCapGenerator({ letters: 6 });
   if (
     !req.body["room-name"] ||
