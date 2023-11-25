@@ -9,9 +9,8 @@ exports.handler = async function (event, context) {
     const putCommand = new PutCommand({
       TableName: process.env.TABLE_NAME,
       Item: {
-        PK: event.queryStringParameters.roomcode,
-        SK: `roster_disconnect#${event.requestContext.connectionId}`,
-        timestamp: now.toISOString(),
+        PK: `roster_disconnect#${event.requestContext.connectionId}`,
+        SK: now.toISOString(),
       },
     });
     const response = await docClient.send(putCommand);
