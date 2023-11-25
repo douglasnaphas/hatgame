@@ -9,7 +9,7 @@ exports.handler = async function (event, context) {
     const putCommand = new PutCommand({
       TableName: process.env.TABLE_NAME,
       Item: {
-        PK: event.queryStringParmaters.roomcode,
+        PK: event.queryStringParameters.roomcode,
         SK: `roster_connection#${event.requestContext.connectionId}`,
         timestamp: now.toISOString(),
       },
