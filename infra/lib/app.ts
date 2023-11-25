@@ -124,7 +124,7 @@ export class AppStack extends Stack {
       {
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: "index.handler",
-        code: lambda.Code.fromAsset("./lib/ws/rosterConnectHandler"),
+        code: lambda.Code.fromAsset("./lib/ws/rosterDisconnectHandler"),
         memorySize: 3000,
         environment: {
           NODE_ENV: "production",
