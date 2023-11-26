@@ -1,19 +1,21 @@
-<body>
-  <h1>Your room code</h1>
-  <p>
-    Give this code to everyone in your group:
-    <span id="room-code">{{roomCode}}</span>.
-  </p>
-  <p>
-    As everyone enters the room code, you will see their names populate below.
-    When your entire group is there, tap <b><em>Everybody's in</em></b
-    >.
-  </p>
-  <div id="players-in-the-room">
-    <h2>Players in the room</h2>
-    <ol id="player-list" hx-ext="ws" ws-connect="/ws-roster/?roomcode={{{roomCode}}}">
-      <li type="1">{{taskMasterName}}</li>
-    </ol>
-  </div>
-  <div id="ws-messages"></div>
-</body>
+<h1>Your room code</h1>
+<p>
+  Give this code to everyone in your group:
+  <span id="room-code">{{roomCode}}</span>.
+</p>
+<p>
+  As everyone enters the room code, you will see their names populate below.
+  When your entire group is there, tap <b><em>Everybody's in</em></b
+  >.
+</p>
+<div id="players-in-the-room">
+  <h2>Players in the room</h2>
+  <ol
+    id="player-list"
+    hx-ext="ws"
+    ws-connect="/ws-roster/?roomcode={{{roomCode}}}"
+  >
+    <li type="1">{{taskMasterName}}</li>
+  </ol>
+</div>
+<div id="ws-messages"></div>
