@@ -169,5 +169,8 @@ export class AppStack extends Stack {
         originRequestPolicy: wsOrp,
       }
     );
+
+    // DynamoDB stream, handle joining event, notify roster(s)
+    
   }
 }

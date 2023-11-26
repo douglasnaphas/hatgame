@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
+    <header>
+      {{#if roomCode}}
+      <span id="room-code-header">Room: {{roomCode}}</span>
+      {{/if}}
+    </header>
     {{{body}}}
   </body>
 </html>

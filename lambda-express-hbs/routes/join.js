@@ -11,7 +11,10 @@ router.get("/", async (req, res) => {
   }
 });
 router.post("/", async(req, res) => {
-  
+  // validate room code
+  // validate name
+  // write the participant to the db
+  // redirect to /how-to-play
 })
 
 module.exports = router;

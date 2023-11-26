@@ -5,24 +5,44 @@
 </p>
 
 <form action="./join" method="post">
-  <div id="enter-name-section">
-    <h2>Step 1: Enter Name</h2>
-    <p>What is your <em>actual</em> name?</p>
-    <input type="text" name="your-name" id="your-name" required />
-    <br />
-    <label for="your-name" id="your-name-label">Your Name</label>
-  </div>
-  <div id="join-the-room-section">
-    <h2>Step 2: Join the room</h2>
-    <input type="text" name="room-code" id="room-code" hx-get="/room-name"
-    hx-params="*" hx-trigger="input changed delay:500ms"
-    hx-target="#room-selected" hx-swap=""outerHTML" required />
+  <fieldset
+    id="join-inputs"
+    hx-get="/join-continue-button"
+    hx-params="*"
+    hx-trigger="input changed delay:500ms"
+    hx-target="#join-room-button"
+    hx-swap="outerHTML"
+  >
+    <!-- Maybe a custom event instead? -->
+    <div id="enter-name-section">
+      <h2>Step 1: Enter Name</h2>
+      <p>What is your <em>actual</em> name?</p>
+      <input type="text" name="your-name" id="your-name" required />
+      <br />
+      <label for="your-name" id="your-name-label">Your Name</label>
+      <!-- TODO: Make an Ajax request and check whether the name is valid. -->
+    </div>
+    <div id="join-the-room-section">
+      <h2>Step 2: Join the room</h2>
+      <input
+        type="text"
+        name="room-code"
+        id="room-code"
+        hx-get="/room-name"
+        hx-params="*"
+        hx-trigger="input changed delay:500ms"
+        hx-target="#room-selected"
+        hx-swap="outerHTML"
+        required
+      />
+    </div>
     <br />
     <label for="room-code" id="room-code-label">Room Code</label>
     <div id="room-selected-section">
       <h3>Room Selected:</h3>
       <p><span id="room-selected">🚫 None</span></p>
     </div>
-    <input type="submit" id="join-room-button" value="Continue" />
-  </div>
+  </fieldset>
+  <input type="submit" id="join-room-button" value="Continue" disabled />
+  <!-- TODO: Disable the button if the name is taken or the room name isn't found. -->
 </form>

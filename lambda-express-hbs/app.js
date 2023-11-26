@@ -9,6 +9,7 @@ const taskmasterInstructionsRouter = require("./routes/taskmaster-insructions");
 const gameSettingsRouter = require("./routes/game-settings");
 const roomCodeRouter = require("./routes/room-code");
 const joinRouter = require("./routes/join");
+const joinContinueButtonRouter = require("./routes/join-continue-button");
 const roomNameRouter = require("./routes/room-name");
 
 var app = express();
@@ -35,6 +36,7 @@ app.use("/taskmaster-instructions", taskmasterInstructionsRouter);
 app.use("/game-settings", gameSettingsRouter);
 app.use("/room-code", roomCodeRouter);
 app.use("/join", joinRouter);
+app.use("/join-continue-button", joinContinueButtonRouter);
 app.use("/room-name", roomNameRouter);
 
 // catch 404 and forward to error handler
