@@ -5,7 +5,7 @@
 </p>
 
 <form action="./join" method="post">
-  <fieldset
+  <div
     id="join-inputs"
     hx-get="/join-continue-button"
     hx-params="*"
@@ -42,7 +42,7 @@
       <h3>Room Selected:</h3>
       <p><span id="room-selected">🚫 None</span></p>
     </div>
-  </fieldset>
+  </div>
   <input type="submit" id="join-room-button" value="Continue" disabled />
   <!-- TODO: Disable the button if the name is taken or the room name isn't found. -->
 </form>
