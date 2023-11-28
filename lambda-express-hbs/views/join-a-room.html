@@ -4,7 +4,7 @@
   <i>Start a Room</i>. That person is the Taskmaster and will lead the game.
 </p>
 
-<form action="./join" method="post">
+<form action="./join" method="post" id="join-room-form">
   <div
     id="join-inputs"
     hx-get="/join-continue-button"
@@ -48,16 +48,28 @@
 </form>
 <div id="replace-me"></div>
 <script>
+  // Whenever any inputs on the form change
+  const formElement = document.getElementById("join-room-form");
+  formElement.addEventListener("input", (event) => {
+    console.log("form input");
+    const yourNameElement = document.getElementById("your-name");
+    console.log("form's yourNameElement value", yourNameElement.value);
+    console.log(
+      "form's roomCodeElement value",
+      document.getElementById("room-code").value
+    );
+  });
+
   // every time either text input changes, fire the "joinFormChanged" htmx custom event if the room code is valid
   const yourNameElement = document.getElementById("your-name");
-  yourNameElement.addEventListener("input", (event) => {
-    console.log("yourNameElement value", event.target.value);
-    const roomCodeElement = document.getElementById("room-code");
-    console.log("roomCodeElement value", roomCodeElement.value);
-    htmx.ajax("GET", "/join-continue-button", {
-      values: { "not sure how": "to include multiple elements" },
-    });
-  });
+  // yourNameElement.addEventListener("input", (event) => {
+  //   console.log("yourNameElement value", event.target.value);
+  //   const roomCodeElement = document.getElementById("room-code");
+  //   console.log("roomCodeElement value", roomCodeElement.value);
+  // htmx.ajax("GET", "/join-continue-button", {
+  //   values: { "not sure how": "to include multiple elements" },
+  // });
+  // });
 
   // use hx-get="/join-room-preflight" hx-trigger="joinFormChanged" to run the
   // join preflight whenever the form changes
@@ -66,4 +78,8 @@
   //   - the one saying whether the name is available
   //   - the one saying whether the room is valid, and its name
   //   - the continue button, disabled or enabled based on the above
+
+  // might be best to accomplish the above using multiple ajax calls, each one
+  // returning an element with appropriate target, all triggered by the same
+  // event
 </script>
