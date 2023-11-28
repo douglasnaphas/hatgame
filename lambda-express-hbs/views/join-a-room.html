@@ -46,3 +46,22 @@
   <input type="submit" id="join-room-button" value="Continue" disabled />
   <!-- TODO: Disable the button if the name is taken or the room name isn't found. -->
 </form>
+<script>
+  // every time either text input changes, console.log both inputs
+  const yourNameElement = document.getElementById("your-name");
+  yourNameElement.addEventListener("input", (event) => {
+    console.log("yourNameElement value", event.target.value);
+    const roomCodeElement = document.getElementById("room-code");
+    console.log("roomCodeElement value", roomCodeElement.value);
+  });
+
+  // every time either text input changes, fire the "joinFormChanged" htmx custom event if the room code is valid
+
+  // use hx-get="/join-room-preflight" hx-trigger="joinFormChanged" to run the
+  // join preflight whenever the form changes
+
+  // server-side, have /join-room-preflight send back all three elements:
+  //   - the one saying whether the name is available
+  //   - the one saying whether the room is valid, and its name
+  //   - the continue button, disabled or enabled based on the above
+</script>
