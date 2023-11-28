@@ -54,7 +54,7 @@
     const roomCodeElement = document.getElementById("room-code");
     console.log("roomCodeElement value", roomCodeElement.value);
     htmx.ajax("GET", "/join-continue-button", {
-      target: "#join-inputs",
+      target: "#join-room-button",
     });
   });
 
