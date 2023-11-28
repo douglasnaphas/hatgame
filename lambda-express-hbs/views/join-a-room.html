@@ -71,6 +71,8 @@
       document.getElementById("room-code").value
     );
     htmx.ajax("GET", "/join-continue-button", {
+      target: "#join-room-button",
+      swap: "outerHTML",
       values: {
         name: yourNameElement.value,
         roomCode: roomCodeElement.value,
