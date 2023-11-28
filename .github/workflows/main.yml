@@ -34,7 +34,7 @@ jobs:
           aws-region: us-east-1
       - name: Identify AWS account
         run: |
-          aws sts get-caller-identity
+          aws sts get-caller-identity | jq -r '.Account' | grep -o '^[0-9]\{4\}'
       - name: Deploy the app stack to the prod account
         working-directory: infra
         run: |
