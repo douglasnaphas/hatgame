@@ -8,7 +8,10 @@
   action="./join"
   method="post"
   id="join-room-form"
-  hx-on:input="console.log('form input happened');"
+  hx-get="/join-continue-button"
+  hx-trigger="input changed delay:500ms"
+  hx-target="#join-room-button"
+  hx-swap="outerHTML"
 >
   <!-- <div
     id="join-inputs"
@@ -63,29 +66,30 @@
   <!-- TODO: Disable the button if the name is taken or the room name isn't found. -->
 </form>
 <div id="replace-me"></div>
+<!--
 <script>
   // Whenever any inputs on the form change
-  const formElement = document.getElementById("join-room-form");
-  formElement.addEventListener("input", (event) => {
-    console.log("form input");
-    const yourNameElement = document.getElementById("your-name");
-    console.log("form's yourNameElement value", yourNameElement.value);
-    const roomCodeElement = document.getElementById("room-code");
-    console.log(
-      "form's roomCodeElement value",
-      document.getElementById("room-code").value
-    );
-    htmx.ajax("GET", "/join-continue-button", {
-      // TODO: might be better as an htmx get triggered, or similar, by input
-      // on the whole form, so I can de-bounce.
-      target: "#join-room-button",
-      swap: "outerHTML",
-      values: {
-        name: yourNameElement.value,
-        roomCode: roomCodeElement.value,
-      },
-    });
-  });
+  // const formElement = document.getElementById("join-room-form");
+  // formElement.addEventListener("input", (event) => {
+  //   console.log("form input");
+  //   const yourNameElement = document.getElementById("your-name");
+  //   console.log("form's yourNameElement value", yourNameElement.value);
+  //   const roomCodeElement = document.getElementById("room-code");
+  //   console.log(
+  //     "form's roomCodeElement value",
+  //     document.getElementById("room-code").value
+  //   );
+  //   htmx.ajax("GET", "/join-continue-button", {
+  //     // TODO: might be better as an htmx get triggered, or similar, by input
+  //     // on the whole form, so I can de-bounce.
+  //     target: "#join-room-button",
+  //     swap: "outerHTML",
+  //     values: {
+  //       name: yourNameElement.value,
+  //       roomCode: roomCodeElement.value,
+  //     },
+  //   });
+  // });
 
   // every time either text input changes, fire the "joinFormChanged" htmx custom event if the room code is valid
   // const yourNameElement = document.getElementById("your-name");
@@ -110,3 +114,4 @@
   // returning an element with appropriate target, all triggered by the same
   // event
 </script>
+-->
