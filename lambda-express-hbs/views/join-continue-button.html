@@ -1,1 +1,16 @@
-<input type="submit" id="join-room-button" value="Continue" class="enabled-join-button" />
+{{#if valid}}
+<input
+  type="submit"
+  id="join-room-button"
+  value="Continue"
+  class="enabled-join-button"
+/>
+{{else}}
+<input
+  type="submit"
+  id="join-room-button"
+  value="Continue"
+  class="enabled-join-button"
+  disabled
+/>
+{{/if}}
