@@ -4,7 +4,12 @@
   <i>Start a Room</i>. That person is the Taskmaster and will lead the game.
 </p>
 
-<form action="./join" method="post" id="join-room-form">
+<form
+  action="./join"
+  method="post"
+  id="join-room-form"
+  hx-on:input="console.log('form input happened');"
+>
   <!-- <div
     id="join-inputs"
     hx-get="/join-continue-button"
@@ -71,6 +76,8 @@
       document.getElementById("room-code").value
     );
     htmx.ajax("GET", "/join-continue-button", {
+      // TODO: might be better as an htmx get triggered, or similar, by input
+      // on the whole form, so I can de-bounce.
       target: "#join-room-button",
       swap: "outerHTML",
       values: {
