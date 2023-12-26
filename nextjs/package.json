@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "install-build-test-deploy": "bash scripts/install-build-test-deploy.sh"
   },
   "dependencies": {
     "@types/node": "20.10.3",

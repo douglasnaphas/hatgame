@@ -1,4 +1,10 @@
-import { Stack, StackProps, CfnOutput, Duration } from "aws-cdk-lib";
+import {
+  Stack,
+  StackProps,
+  CfnOutput,
+  Duration,
+  RemovalPolicy,
+} from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { aws_apigateway as apigw } from "aws-cdk-lib";
 import { aws_lambda as lambda } from "aws-cdk-lib";
@@ -10,6 +16,7 @@ import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import { appDistro } from "./appDistro";
 import { WebSocketApi, WebSocketStage } from "@aws-cdk/aws-apigatewayv2-alpha";
 import { WebSocketLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
+import * as s3 from "aws-cdk-lib/aws-s3";
 
 export interface AppStackProps extends StackProps {
   domainName?: string;
@@ -171,6 +178,20 @@ export class AppStack extends Stack {
     );
 
     // DynamoDB stream, handle joining event, notify roster(s)
-    
+
+    // Next.js frontend
+    const nextjsBucket = new s3.Bucket(this, "NextjsBucket", {
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+    distro.addBehavior("/join", new origins.S3Origin(nextjsBucket), {
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      cachePolicy: new cloudfront.CachePolicy(scope, "NextjsCachePolicy", {
+        minTtl: Duration.seconds(0),
+        maxTtl: Duration.seconds(180),
+        defaultTtl: Duration.seconds(180),
+      }),
+    });
+    new CfnOutput(this, "NextjsBucketName", { value: nextjsBucket.bucketName });
   }
 }
