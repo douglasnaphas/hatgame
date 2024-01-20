@@ -5,13 +5,10 @@ import { App } from "aws-cdk-lib";
 import { SSMClient, GetParametersCommand } from "@aws-sdk/client-ssm";
 import {
   IAMClient,
-  ListOpenIDConnectProvidersCommand,
+  GetOpenIDConnectProviderCommand,
 } from "@aws-sdk/client-iam";
 const crypto = require("crypto");
 import { RoleStack } from "../lib/roleStack";
-import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
-const response2GitHubProviderArn =
-  require("aws-github-oidc").response2GitHubProviderArn;
 
 const stackname = require("@cdk-turnkey/stackname");
 const STACKNAME_HASH_LENGTH = 6;
@@ -121,33 +118,30 @@ const STACKNAME_HASH_LENGTH = 6;
 
   // Check for a GitHub OIDC Provider
   const client = new IAMClient({ region });
-  const input = {};
-  const command = new ListOpenIDConnectProvidersCommand(input);
+  const account = process.env.CDK_DEFAULT_ACCOUNT;
+  const providerArn = `arn:aws:iam::${account}:oidc-provider/token.actions.githubusercontent.com`
+  const input = {OpenIDConnectProviderArn: providerArn};
+  const command = new GetOpenIDConnectProviderCommand(input);
   let response;
   try {
     response = await client.send(command);
   } catch (error: any) {
     if (error.Code === "ExpiredToken") {
       console.error(
-        "expired token, try setting the variables AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_SESSION_TOKEN to valid credentials"
+        "expired token, try setting the variables AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_SESSION_TOKEN to valid credentials, or setting a profile"
       );
       const EXPIRED_TOKEN = 2;
       process.exit(EXPIRED_TOKEN);
     }
-    console.log("error listing OpenID Connect Providers");
-    const ERROR_LISTING_PROVIDERS = 4;
-    process.exit(ERROR_LISTING_PROVIDERS);
+    console.log("error getting OpenID Connect Provider");
+    const ERROR_GETTING_PROVIDER = 4;
+    console.log(`No provider with expected ARN ${providerArn}`)
+    process.exit(ERROR_GETTING_PROVIDER);
   }
   const BAD_RESPONSE = 3;
   if (!response) {
+    console.log(`No provider with expected ARN ${providerArn}`)
     process.exit(BAD_RESPONSE);
-  }
-
-  const providerArn = response2GitHubProviderArn(response) || "";
-  if (providerArn === "") {
-    const NO_GITHUB_PROVIDER = 5;
-    console.error("No GitHub Provider");
-    process.exit(NO_GITHUB_PROVIDER);
   }
 
   const subject = `repo:${process.env.GITHUB_REPOSITORY}:ref:${process.env.GITHUB_REF}`;
